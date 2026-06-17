@@ -15,6 +15,7 @@ import NewsDetail from './pages/NewsDetail';
 // Pages Privées (Admin)
 import Login from './pages/admin/Login';
 import Dashboard from './pages/admin/Dashboard';
+import NewsCrud from './pages/admin/NewsCrud';
 
 function App() {
   const location = useLocation();
@@ -44,6 +45,7 @@ function App() {
           {/* ---- ROUTES ADMIN ---- */}
           <Route path="/admin" element={<Login />} />
           <Route path="/admin/dashboard" element={<Dashboard />} />
+          <Route path="/admin/news" element={<NewsCrud />} />
         </Routes>
       </main>
 
