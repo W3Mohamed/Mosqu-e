@@ -1,5 +1,7 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
+
+// Composants Publics
 import PrayerTimesBar from './components/layout/PrayerTimesBar';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
@@ -10,31 +12,44 @@ import ProgressDetail from './pages/ProgressDetail';
 import NewsList from './pages/NewsList';
 import NewsDetail from './pages/NewsDetail';
 
-// Page Privée
+// Pages Privées (Admin)
 import Login from './pages/admin/Login';
+import Dashboard from './pages/admin/Dashboard';
 
 function App() {
+  const location = useLocation();
+  
+  // Si l'URL commence par "/admin", on cache la Navbar et le Footer publics
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   return (
     <div className="min-h-screen flex flex-col">
-      <PrayerTimesBar />
-      <Navbar />
+      
+      {/* On n'affiche la navigation publique que si on n'est PAS dans l'admin */}
+      {!isAdminRoute && (
+        <>
+          <PrayerTimesBar />
+          <Navbar />
+        </>
+      )}
 
       <main className="flex-grow">
         <Routes>
-          {/* Les routes publiques de la vitrine */}
+          {/* ---- ROUTES PUBLIQUES ---- */}
           <Route path="/" element={<Home />} />
-          
-          {/* Les routes dynamiques avec paramètres (:id) */}
           <Route path="/progress/:id" element={<ProgressDetail />} />
           <Route path="/news" element={<NewsList />} />
           <Route path="/news/:id" element={<NewsDetail />} />
           
-          {/* La zone d'administration */}
+          {/* ---- ROUTES ADMIN ---- */}
           <Route path="/admin" element={<Login />} />
+          <Route path="/admin/dashboard" element={<Dashboard />} />
         </Routes>
       </main>
 
-      <Footer />
+      {/* On n'affiche le footer que si on n'est PAS dans l'admin */}
+      {!isAdminRoute && <Footer />}
+      
     </div>
   );
 }
